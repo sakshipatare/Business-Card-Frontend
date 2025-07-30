@@ -14,6 +14,7 @@ function Profile() {
   });
   const [isCardAdded, setIsCardAdded] = useState(false);
   const [isEditing, setIsEditing] = useState(true);
+  const apiUrl = process.env.REACT_APP_API_URL;
 
   useEffect(() => {
     const storedUser = localStorage.getItem("userData");
@@ -32,7 +33,7 @@ function Profile() {
         }));
 
         // Fetch card data if already added
-      fetch(`http://localhost:4000/cards/email/${parsedUser.email}`)
+      fetch(`${apiUrl}/cards/email/${parsedUser.email}`)
         .then((res) => res.json())
         .then((data) => {
           if (data && data.email) {
@@ -66,7 +67,7 @@ function Profile() {
   const handleAdd = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch("http://localhost:4000/cards/add", {
+      const response = await fetch(`${apiUrl}/cards/add`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(cardData),
@@ -96,7 +97,7 @@ function Profile() {
   const handleUpdate = async (e) => {
     e.preventDefault();
     try {
-      const response = await fetch(`http://localhost:4000/cards/${cardData.id}`, {
+      const response = await fetch(`${apiUrl}/cards/${cardData.id}`, {
         method: "PUT",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(cardData),

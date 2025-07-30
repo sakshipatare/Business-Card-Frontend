@@ -17,8 +17,10 @@ export default function Login() {
     // console.log("Remember me:", remember);
     // Add your login logic here
 
+    const apiUrl = process.env.REACT_APP_API_URL;
+    
     try {
-    const response = await fetch("http://localhost:4000/users/signin", {
+    const response = await fetch(`${apiUrl}/users/signin`, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
@@ -35,6 +37,11 @@ export default function Login() {
 
       // ✅ Save user data to localStorage
       localStorage.setItem("userData", JSON.stringify(data.user));
+
+      localStorage.setItem("token", data.token);
+      console.log(localStorage.getItem("token"));
+
+      console.log(localStorage.getItem("userData"));
       
       // Save token or user info if needed: localStorage.setItem("token", data.token);
       navigate("/home");
